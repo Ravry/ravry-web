@@ -9,7 +9,7 @@ export default function Content() {
             <p>v1.0.1</p>
             <Selector/>
 
-            <p className="text-6xl font-bold mt-10">Contact Me</p>
+            <p className="text-6xl font-bold mt-10" id="contact">Contact Me</p>
             <p className="text-xl">Contact me on various platforms.</p>
             <div className="flex flex-row w-full items-center justify-center text-3xl gap-5">
                 <div><i className="fa-brands fa-instagram"></i></div>

@@ -6,9 +6,9 @@ export default function Header() {
                 <div className="hover:cursor-pointer" onClick={() => {window.open('https://github.com/Ravry', '_blank')}}>rav<span className="text-white font-bold text-3xl">ry</span></div>
             </div>
 
-            <div className="flex items-center rounded-xl p-4 font-bold foreground shadow-xl">
+            <a className="flex items-center rounded-xl p-4 font-bold foreground shadow-xl hover:cursor-pointer" href="#contact">
                 contact
-            </div>
+            </a>
         </div>
     );
 }
