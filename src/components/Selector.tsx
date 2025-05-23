@@ -58,7 +58,7 @@ export default function Selector() {
                         const card = cards[displayIndex];
                         
                         cardElements.push(
-                            <div onClick={() => setSelectedCard(displayIndex)} className={`foreground-2 rounded-4xl flex-grow-1 flex flex-col ${i === 1 ? 'h-90 w-80' : 'h-80 w-70'}`}>
+                            <div key={i} onClick={() => setSelectedCard(displayIndex)} className={`foreground-2 rounded-4xl flex-grow-1 flex flex-col ${i === 1 ? 'h-90 w-80' : 'h-80 w-70'}` }>
                                 <div className="flex flex-row w-full p-2 items-center gap-2">
                                     <div className="p-4 foreground shadow-xl rounded-4xl"><i className="fa-solid fa-arrow-left"></i></div>
                                     <span className="font-bold text-xl">{card.title}</span>
@@ -66,8 +66,8 @@ export default function Selector() {
 
                                 <div className="flex flex-col m-2 gap-2 overflow-auto flex-grow-1 p-1 rounded-2xl">
                                     {
-                                        card.content.map((content) => (
-                                            <div className="flex flex-row items-center justify-between p-2 rounded-2xl foreground">
+                                        card.content.map((content, index) => (
+                                            <div key={index} className="flex flex-row items-center justify-between p-2 rounded-2xl foreground">
                                                 <div className="flex flex-row gap-2 items-center ">
                                                     <i className="fa-regular fa-circle"></i>
                                                     <p>{content}</p>    
