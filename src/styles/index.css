@@ -9,8 +9,6 @@ body {
     background: radial-gradient(circle at top, #222222, #121212);
     background-repeat: no-repeat;
     background-attachment: fixed;
-    -ms-overflow-style: none; 
-    scrollbar-width: none;
 }
 
 ::-webkit-scrollbar {

@@ -16,7 +16,6 @@ export default function Content() {
                 <div><i className="fa-brands fa-x-twitter"></i></div>
                 <div><i className="fa-brands fa-bluesky"></i></div>
             </div>
-            &nbsp;
         </div>
     );
 }
