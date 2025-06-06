@@ -12,9 +12,10 @@ export default function Content() {
             <p className="text-6xl font-bold mt-10" id="contact">Contact Me</p>
             <p className="text-xl">Contact me on various platforms.</p>
             <div className="flex flex-row w-full items-center justify-center text-3xl gap-5">
-                <div><i className="fa-brands fa-instagram"></i></div>
-                <div><i className="fa-brands fa-x-twitter"></i></div>
-                <div><i className="fa-brands fa-bluesky"></i></div>
+                <div onClick={() => window.open("https://www.instagram.com/", "_blank")?.focus()}><i className="fa-brands fa-instagram"></i></div>
+                <div onClick={() => window.open("https://twitter.com/", "_blank")?.focus()}><i className="fa-brands fa-x-twitter"></i></div>
+                <div onClick={() => window.open("https://bsky.app/", "_blank")?.focus()}><i className="fa-brands fa-bluesky"></i></div>
+                <div onClick={() => window.open("https://itch.io/", "_blank")?.focus()}><i className="fa-brands fa-itch-io"></i></div>
             </div>
         </div>
     );

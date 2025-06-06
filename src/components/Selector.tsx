@@ -5,37 +5,67 @@ export default function Selector() {
         {
             title: "About",
             content: [
-                "None",
+                {name: "soon.", url: "", visibility: "", languages: []}
             ]
         },
         {
-            title: "Projects",
-            content: []
+            title: "Project",
+            content: [
+                {name: "soon.", url: "", visibility: "", languages: []}
+            ]
         },
         {
             title: "Other",
             content: [
-                "None",
+                {name: "soon.", url: "", visibility: "", languages: []}
             ]
-        },
+        }
     ]);
-    const [selectedCard, setSelectedCard] = useState(1)
+    const [selectedCard, setSelectedCard] = useState(1);
 
     const username = "ravry";
 
+    const [languageColors, setLanguageColors] = useState<Record<string, { color: string }> | null>(null);
+
+    const openPage = (url: any) => {
+        if (url)
+            window.open(url,'_blank')?.focus();
+    };
+
     useEffect(() => {
+        const fetchColors = async () => {
+            const fetchedLanguageColors = await fetch(
+                "https://raw.githubusercontent.com/ozh/github-colors/master/colors.json"
+            ).then((res) => res.json());
+            setLanguageColors(fetchedLanguageColors);
+        };
+
+        fetchColors();
+
         const fetchRepos = async () => {
             try {
                 const response = await fetch(`https://api.github.com/users/${username}/repos`);
                 const data = await response.json();
                 
-                const repoNames = data.map((repo: any) => repo["name"]);
+                const repoContent = await Promise.all(
+                data.map(async (repo: any) => {
+                    const langsResponse = await fetch(repo.languages_url);
+                    const langsData = await langsResponse.json();
+                    return {
+                        name: repo.name,
+                        url: repo.clone_url,
+                        visibility: repo.visibility,
+                        languages: Object.keys(langsData),
+                    };
+                })
+                );
+
 
                 setCards(prevCards => {
                     const updatedCards = [...prevCards];
                     updatedCards[1] = {
                         ...updatedCards[1],
-                        content: repoNames,
+                        content: repoContent,
                     };
                     return updatedCards;
                 });
@@ -45,6 +75,11 @@ export default function Selector() {
         };
         fetchRepos();
     }, [username]);
+
+    const getColorForLanguage = (language: string) => {
+        if (!languageColors) return "#999999";
+        return languageColors[language]?.color || "#999999";
+    };
 
     return (
         <div className="flex flex-col lg:flex-row justify-center items-center gap-4 m-5">
@@ -67,12 +102,26 @@ export default function Selector() {
                                 <div className="flex flex-col m-2 gap-2 overflow-auto flex-grow-1 p-1 rounded-2xl">
                                     {
                                         card.content.map((content, index) => (
-                                            <div key={index} className="flex flex-row items-center justify-between p-2 rounded-2xl foreground">
-                                                <div className="flex flex-row gap-2 items-center ">
-                                                    <i className="fa-regular fa-circle"></i>
-                                                    <p>{content}</p>    
+                                            <div onDoubleClick={() => openPage(content.url)} key={index} className="flex flex-col rounded-2xl foreground shadow-xl p-2">
+                                                <div className="flex flex-row items-center justify-between">
+                                                    <div className="flex flex-row gap-2 items-center justify-center">
+                                                        <i className="fa-regular fa-circle"></i>
+                                                        <span className="font-bold">{content.name}</span>    
+                                                    </div>
+                                                    <div className="flex flex-row gap-2 items-center justify-center">
+                                                        {content.visibility && content.visibility !== "" && (
+                                                            <span className="rounded-lg p-1 px-2 bg-green-800">
+                                                                {content.visibility}
+                                                            </span>
+                                                        )}
+                                                        <i className="fa-solid fa-grip-vertical"></i>
+                                                    </div>
                                                 </div>
-                                                <i className="fa-solid fa-grip-vertical"></i>   
+                                                {content.languages.length > 0 && <div className="flex flex-row w-full gap-1 overflow-auto mt-2 text-white">
+                                                    {content.languages.map((lang) => (
+                                                        <span className="rounded-lg p-1 px-2 text-shadow" style={{backgroundColor: getColorForLanguage(lang)}}>{lang}</span>
+                                                    ))}
+                                                </div>}   
                                             </div>
                                         ))
                                     }
